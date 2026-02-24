@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>4-4-6 Breathing 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink:      #f472b6;
+      --purple:    #a855f7;
+      --rose:      #fb7185;
+      --lavender:  #c084fc;
+      --text:      #6b21a8;
+      --subtext:   #a78bfa;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #fdf2ff 0%, #f5f3ff 45%, #eff6ff 100%);
+      font-family: 'Nunito', 'Segoe UI', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── Ambient Orbs (parallax drifting blobs) ── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(75px);
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform;
+    }
+    .orb-1 { width: 520px; height: 520px; background: radial-gradient(circle, rgba(253,164,175,0.45), transparent 70%); top: -160px; left: -160px; animation: orbDrift 13s ease-in-out infinite; }
+    .orb-2 { width: 420px; height: 420px; background: radial-gradient(circle, rgba(196,181,253,0.42), transparent 70%); bottom: -120px; right: -120px; animation: orbDrift 16s ease-in-out infinite reverse; }
+    .orb-3 { width: 280px; height: 280px; background: radial-gradient(circle, rgba(186,230,253,0.38), transparent 70%); top: 42%; left: 62%; animation: orbDrift 9s ease-in-out infinite 2s; }
+    .orb-4 { width: 220px; height: 220px; background: radial-gradient(circle, rgba(253,230,138,0.3), transparent 70%); top: 68%; left: 8%; animation: orbDrift 11s ease-in-out infinite 1s reverse; }
+    
+    @keyframes orbDrift {
+      0%, 100% { transform: translate(0, 0); }
+      25%  { transform: translate(28px, -22px); }
+      50%  { transform: translate(-18px, 28px); }
+      75%  { transform: translate(22px, 18px); }
+    }
+
+    /* ── Floating Petals ── */
+    .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .particle { position: absolute; border-radius: 50% 0 50% 0; opacity: 0; animation: petalDrift linear infinite; }
+    @keyframes petalDrift {
+      0%   { transform: translateY(-5vh) rotate(0deg) translateX(0px);   opacity: 0; }
+      8%   { opacity: 0.5; }
+      50%  { transform: translateY(52vh)  rotate(180deg) translateX(35px); opacity: 0.38; }
+      92%  { opacity: 0.18; }
+      100% { transform: translateY(108vh) rotate(360deg) translateX(-18px); opacity: 0; }
+    }
+
+    /* ── Glass Card ── */
+    .card {
+      position: relative; z-index: 1;
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      border-radius: 36px;
+      padding: 44px 48px;
+      box-shadow: 0 10px 50px rgba(168, 85, 247, 0.13), 0 2px 14px rgba(244, 114, 182, 0.09), inset 0 1px 0 rgba(255,255,255,0.95);
+      display: flex; flex-direction: column; align-items: center; gap: 22px;
+      min-width: 340px;
+    }
+
+    .app-title { font-size: 0.78rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--subtext); }
+
+    /* ── Flower Wrapper ── */
+    .flower-wrap { position: relative; width: 250px; height: 250px; display: flex; align-items: center; justify-content: center; }
+
+    /* Concentric ripple rings */
+    .ripple { position: absolute; border-radius: 50%; border: 1.5px solid; pointer-events: none; }
+    .ripple-1 { width: 165px; height: 165px; border-color: rgba(244,114,182,0.28); animation: rPulse 4s ease-in-out infinite 0s; }
+    .ripple-2 { width: 205px; height: 205px; border-color: rgba(168,85,247,0.20);  animation: rPulse 4s ease-in-out infinite .5s; }
+    .ripple-3 { width: 248px; height: 248px; border-color: rgba(186,230,253,0.16); animation: rPulse 4s ease-in-out infinite 1s; }
+    @keyframes rPulse { 0%, 100% { transform: scale(.94); opacity: .35; } 50% { transform: scale(1.06); opacity: .85; } }
+
+    .flower-glow {
+      position: absolute; width: 188px; height: 188px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(249,168,212,0.28) 0%, transparent 68%);
+      animation: glowBreath 4s ease-in-out infinite;
+    }
+    @keyframes glowBreath { 0%, 100% { transform: scale(1); opacity: .6; } 50% { transform: scale(1.42); opacity: 1; } }
+
+    .flower-svg {
+      width: 182px; height: 182px; position: relative; z-index: 2;
+      transition: transform .1s linear;
+      filter: drop-shadow(0 6px 22px rgba(236,72,153,.22)) drop-shadow(0 2px 6px rgba(168,85,247,.15));
+    }
+
+    /* ── Phase Text ── */
+    .phase-label { font-size: 1.35rem; font-weight: 700; color: var(--text); min-height: 1.7rem; text-align: center; letter-spacing: .5px; }
+    .phase-count {
+      font-size: 4.8rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--pink) 30%, var(--purple) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1; min-height: 4.8rem; text-align: center;
+    }
+
+    /* ── Progress Bar ── */
+    .progress-wrap { width: 100%; height: 7px; background: rgba(167,139,250,.18); border-radius: 999px; overflow: hidden; }
+    .progress-bar { height: 100%; width: 100%; background: linear-gradient(90deg, #f9a8d4, #a78bfa, #7dd3fc); border-radius: 999px; transform-origin: left; transition: transform 1s linear; }
+
+    /* ── Meta Row ── */
+    .meta-row { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .total-timer { font-size: .8rem; color: rgba(107,33,168,.4); letter-spacing: 1px; }
+    .cycles { display: flex; gap: 6px; } /* Slightly reduced gap to fit 8 dots nicely */
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(167,139,250,.2); border: 1.5px solid rgba(167,139,250,.35); transition: all .5s cubic-bezier(.34,1.56,.64,1); }
+    .dot.done { background: linear-gradient(135deg, #f472b6, #a855f7); border-color: transparent; box-shadow: 0 0 10px rgba(168,85,247,.45); transform: scale(1.3); }
+
+    /* ── Done Screen & Buttons ── */
+    .done-card { display: none; flex-direction: column; align-items: center; gap: 16px; text-align: center; animation: fadeUp .8s ease; }
+    @keyframes fadeUp { from { opacity:0; transform: translateY(18px); } to { opacity:1; transform: translateY(0); } }
+    
+    .done-card h2 { font-size: 1.7rem; font-weight: 700; color: var(--text); }
+    .done-card p { font-size: .95rem; color: rgba(107,33,168,.55); max-width: 265px; line-height: 1.75; margin-bottom: 8px; }
+    
+    .checkmark { font-size: 4.2rem; animation: popIn .6s cubic-bezier(.175,.885,.32,1.275); }
+    @keyframes popIn { from { transform: scale(0) rotate(-15deg); } to { transform: scale(1) rotate(0deg); } }
+
+    /* Buttons */
+    .btn-group { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+    .btn {
+      width: 100%; padding: 14px 0; border-radius: 999px;
+      font-size: .95rem; font-weight: 700; letter-spacing: .5px; text-decoration: none; text-align: center;
+      transition: transform .2s, box-shadow .2s, background .2s; border: none; cursor: pointer; font-family: 'Nunito', sans-serif;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #f472b6, #a855f7); color: #fff; box-shadow: 0 8px 24px rgba(168,85,247,.3);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(168,85,247,.45); }
+    
+    .btn-secondary {
+      background: transparent; color: var(--text); border: 2px solid rgba(168, 85, 247, 0.25);
+    }
+    .btn-secondary:hover { background: rgba(168, 85, 247, 0.08); transform: translateY(-2px); }
+
+  </style>
+</head>
+<body>
+
+<!-- Ambient parallax orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="orb orb-4"></div>
+
+<!-- Falling petal particles -->
+<div class="particles" id="particles"></div>
+
+<!-- ══════════════ EXERCISE CARD ══════════════ -->
+<div class="card" id="exerciseScreen">
+
+  <div class="app-title">✦ 4-4-6 Breathing ✦</div>
+
+  <!-- Flower -->
+  <div class="flower-wrap">
+    <div class="ripple ripple-1"></div>
+    <div class="ripple ripple-2"></div>
+    <div class="ripple ripple-3"></div>
+    <div class="flower-glow"></div>
+
+    <svg class="flower-svg" viewBox="0 0 160 160" id="flowerSvg" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="p1" cx="50%" cy="22%" r="78%">
+          <stop offset="0%" stop-color="#fecdd3"/><stop offset="100%" stop-color="#f472b6"/>
+        </radialGradient>
+        <radialGradient id="p2" cx="50%" cy="22%" r="78%">
+          <stop offset="0%" stop-color="#e9d5ff"/><stop offset="100%" stop-color="#a855f7"/>
+        </radialGradient>
+        <radialGradient id="p3" cx="50%" cy="22%" r="78%">
+          <stop offset="0%" stop-color="#fde8ef"/><stop offset="100%" stop-color="#ec4899"/>
+        </radialGradient>
+        <radialGradient id="p4" cx="50%" cy="22%" r="78%">
+          <stop offset="0%" stop-color="#f5d0fe"/><stop offset="100%" stop-color="#c084fc"/>
+        </radialGradient>
+        <radialGradient id="centerGrad" cx="50%" cy="38%">
+          <stop offset="0%" stop-color="#fef9c3"/><stop offset="55%" stop-color="#fde68a"/><stop offset="100%" stop-color="#f59e0b"/>
+        </radialGradient>
+      </defs>
+
+      <!-- 8 petals -->
+      <ellipse cx="80" cy="37" rx="12" ry="36" fill="url(#p1)" opacity=".93" transform="rotate(0,80,80)"/>
+      <ellipse cx="80" cy="37" rx="12" ry="36" fill="url(#p2)" opacity=".93" transform="rotate(45,80,80)"/>
+      <ellipse cx="80" cy="37" rx="12" ry="36" fill="url(#p3)" opacity=".93" transform="rotate(90,80,80)"/>
+      <ellipse cx="80" cy="37" rx="12" ry="36" fill="url(#p4)" opacity=".93" transform="rotate(135,80,80)"/>
+      <ellipse cx="80" cy="37" rx="12" ry="36" fill="url(#p1)" opacity=".93" transform="rotate(180,80,80)"/>
+      <ellipse cx="80" cy="37" rx="12" ry="36" fill="url(#p2)" opacity=".93" transform="rotate(225,80,80)"/>
+      <ellipse cx="80" cy="37" rx="12" ry="36" fill="url(#p3)" opacity=".93" transform="rotate(270,80,80)"/>
+      <ellipse cx="80" cy="37" rx="12" ry="36" fill="url(#p4)" opacity=".93" transform="rotate(315,80,80)"/>
+      <circle cx="80" cy="80" r="20" fill="url(#centerGrad)"/>
+      <ellipse cx="74" cy="73" rx="6" ry="4.5" fill="rgba(255,255,255,0.58)" transform="rotate(-20,74,73)"/>
+    </svg>
+  </div>
+
+  <div class="phase-label" id="phaseLabel">Get Ready…</div>
+  <div class="phase-count" id="phaseCount">3</div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="meta-row">
+    <span class="total-timer" id="totalTimer">1:55 remaining</span>
+    <div class="cycles" id="cycleDots"></div>
+  </div>
+
+</div>
+
+<!-- ══════════════ DONE CARD ══════════════ -->
+<div class="card done-card" id="doneScreen">
+  <div class="checkmark">🌸</div>
+  <h2>Well done, you did it.</h2>
+  <p>Take a moment. Notice how your body feels right now — a little calmer, a little lighter.</p>
+  
+  <div class="btn-group">
+    <button class="btn btn-primary" id="restartBtn">🔄 Start Again</button>
+    <a href="#" class="btn btn-secondary" id="returnBtn">💚 Back to Chat</a>
+  </div>
+</div>
+
+<script>
+  // ── Config ────────────────────────────────────────────
+  const BOT_USERNAME  = "Brainhealer_bot"; // ← change this
+  
+  // 4-4-6 BREATHING (14s total per cycle)
+  const PHASES = [
+    { label: "Breathe In ↑",  duration: 4, scale: 1.42 },
+    { label: "Hold Full",     duration: 4, scale: 1.42 },
+    { label: "Breathe Out ↓", duration: 6, scale: 0.70 } // Longer 6s exhale
+  ];
+  
+  const TOTAL_CYCLES = 8; // 8 cycles x 14 seconds = 112 seconds
+  const INTRO_SECONDS = 3;
+  const TOTAL_SECONDS = (TOTAL_CYCLES * 14) + INTRO_SECONDS; // Exactly 115 seconds (1:55)
+
+  // ── Floating petal particles ──────────────────────────
+  const COLOURS = ['#fda4af','#f9a8d4','#d8b4fe','#c4b5fd','#fbcfe8','#bae6fd','#fde68a'];
+  const particleWrap = document.getElementById("particles");
+  for (let i = 0; i < 24; i++) {
+    const el = document.createElement("div"); el.className = "particle";
+    const sz = 5 + Math.random() * 9;
+    el.style.cssText = `left:${Math.random()*100}vw; width:${sz}px; height:${(sz*.58).toFixed(1)}px; background:${COLOURS[~~(Math.random()*COLOURS.length)]}; animation-duration:${9+Math.random()*13}s; animation-delay:${Math.random()*14}s;`;
+    particleWrap.appendChild(el);
+  }
+
+  // ── Element refs ──────────────────────────────────────
+  const flower      = document.getElementById("flowerSvg");
+  const phaseLabel  = document.getElementById("phaseLabel");
+  const phaseCount  = document.getElementById("phaseCount");
+  const progressBar = document.getElementById("progressBar");
+  const totalTimer  = document.getElementById("totalTimer");
+  const exerciseEl  = document.getElementById("exerciseScreen");
+  const doneEl      = document.getElementById("doneScreen");
+  const dotsEl      = document.getElementById("cycleDots");
+  
+  document.getElementById("returnBtn").href = `https://t.me/${BOT_USERNAME}`;
+
+  // Pre-generate cycle dots (now 8 dots)
+  for (let i = 0; i < TOTAL_CYCLES; i++) {
+    const d = document.createElement("div");
+    d.className = "dot"; d.id = "dot" + i;
+    dotsEl.appendChild(d);
+  }
+
+  // ── Helpers ───────────────────────────────────────────
+  const setScale = s => flower.style.transform = `scale(${s})`;
+
+  function triggerVibrate(pattern) {
+    if ('vibrate' in navigator) navigator.vibrate(pattern);
+  }
+
+  function animateFlower(from, to, dur) {
+    const steps = dur * 20, delta = (to - from) / steps;
+    let cur = from, step = 0;
+    return new Promise(res => {
+      const id = setInterval(() => {
+        cur += delta; setScale(cur); step++;
+        if (step >= steps) { clearInterval(id); setScale(to); res(); }
+      }, 50);
+    });
+  }
+
+  function runPhase(dur, label) {
+    return new Promise(res => {
+      phaseLabel.textContent = label;
+      let rem = dur; phaseCount.textContent = rem;
+      const id = setInterval(() => {
+        rem--; phaseCount.textContent = rem > 0 ? rem : "";
+        if (rem <= 0) { clearInterval(id); res(); }
+      }, 1000);
+    });
+  }
+
+  // ── Main Controller ───────────────────────────────────
+  let timerInt; // Global reference so we can reset it
+
+  async function startExercise() {
+    // 1. Reset all UI Elements
+    exerciseEl.style.display = "flex";
+    doneEl.style.display = "none";
+    setScale(1.0);
+    document.querySelectorAll('.dot').forEach(d => d.classList.remove('done'));
+    
+    // 2. Reset Global Timer
+    let totalRem = TOTAL_SECONDS;
+    progressBar.style.transform = `scaleX(1)`;
+    totalTimer.textContent = `${Math.floor(totalRem / 60)}:${String(totalRem % 60).padStart(2, "0")} remaining`;
+    
+    clearInterval(timerInt);
+    timerInt = setInterval(() => {
+      totalRem--;
+      const m = Math.floor(totalRem / 60);
+      const s = String(totalRem % 60).padStart(2, "0");
+      totalTimer.textContent = `${m}:${s} remaining`;
+      progressBar.style.transform = `scaleX(${Math.max(0, totalRem / TOTAL_SECONDS)})`;
+      if (totalRem <= 0) clearInterval(timerInt);
+    }, 1000);
+
+    // 3. Intro Countdown
+    phaseLabel.textContent = "Get Ready…";
+    for (let i = INTRO_SECONDS; i >= 1; i--) {
+      phaseCount.textContent = i;
+      await new Promise(r => setTimeout(r, 1000));
+    }
+    phaseCount.textContent = "";
+
+    // 4. Breathing Loop
+    let prev = 1.0;
+    for (let c = 0; c < TOTAL_CYCLES; c++) {
+      for (const ph of PHASES) {
+        triggerVibrate(50); // Haptic tick
+        await Promise.all([
+          animateFlower(prev, ph.scale, ph.duration),
+          runPhase(ph.duration, ph.label)
+        ]);
+        prev = ph.scale;
+      }
+      document.getElementById("dot" + c).classList.add("done");
+    }
+
+    // 5. Done Screen
+    exerciseEl.style.display = "none";
+    doneEl.style.display = "flex";
+    triggerVibrate([100, 50, 100, 50, 200]); // Success pattern
+  }
+
+  // Event Listener for the Start Again Button
+  document.getElementById("restartBtn").addEventListener("click", () => {
+    startExercise();
+  });
+
+  // Auto-start on load
+  startExercise();
+</script>
+</body>
+</html>
